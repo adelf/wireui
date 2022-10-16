@@ -1,6 +1,6 @@
 <?php
 
-namespace WireUi\Support\Buttons;
+namespace WireUi\Support\Buttons\Colors;
 
 use Illuminate\Support\Arr;
 use Stringable;
