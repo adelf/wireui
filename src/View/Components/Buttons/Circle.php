@@ -3,38 +3,33 @@
 namespace WireUi\View\Components\Buttons;
 
 use Closure;
+use WireUi\Support\Buttons\Sizes;
 use WireUi\View\Components\Button;
 
 class Circle extends Button
 {
+    protected static array $sizes = [
+        'base'  => Sizes\CircleSize::class,
+        'icons' => Sizes\CircleIconSize::class,
+    ];
+
     public function __construct(
-        public bool $outline = false,
-        public bool $flat = false,
-        public bool $preventWireLoading = true,
-        public ?string $color = null,
-        public ?string $size = null,
+        public bool $disabledOnWireLoading = true,
         public ?string $label = null,
         public ?string $icon = null,
+        public ?string $color = null,
+        public ?string $size = null,
     ) {
         parent::__construct(
             rounded: true,
             squared: false,
-            outline: $outline,
-            flat: $flat,
             block: false,
-            disableOnWireLoading: $preventWireLoading,
+            disabledOnWireLoading: $disabledOnWireLoading,
             size: $size,
             label: $label,
             icon: $icon,
             rightIcon: null,
         );
-    }
-
-    public function render(): Closure
-    {
-        return function (array $data) {
-            return view('wireui::circle-button', $this->proccessData($data))->render();
-        };
     }
 
     protected function proccessData(array $data): array
@@ -56,29 +51,10 @@ class Circle extends Button
         return $data;
     }
 
-    protected static function sizes(): array
+    public function render(): Closure
     {
-        return [
-            '2xs'     => 'w-5 h-5',
-            'xs'      => 'w-7 h-7',
-            'sm'      => 'w-8 h-8',
-            'default' => 'w-9 h-9',
-            'md'      => 'w-10 h-10',
-            'lg'      => 'w-12 h-12',
-            'xl'      => 'w-14 h-14',
-        ];
-    }
-
-    protected static function iconSizes(): array
-    {
-        return [
-            '2xs'     => 'w-2 h-2',
-            'xs'      => 'w-3 h-3',
-            'sm'      => 'w-3.5 h-3.5',
-            'default' => 'w-4 h-4',
-            'md'      => 'w-4 h-4',
-            'lg'      => 'w-5 h-5',
-            'xl'      => 'w-6 h-6',
-        ];
+        return function (array $data) {
+            return view('wireui::circle-button', $this->proccessData($data))->render();
+        };
     }
 }
