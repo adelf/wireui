@@ -7,10 +7,10 @@ use Illuminate\View\ComponentAttributeBag;
 use WireUi\View\Attribute;
 use WireUi\View\Components\Component;
 
-class Base extends Component
+abstract class Base extends Component
 {
     public function __construct(
-        public bool $disableOnWireLoading = true,
+        public bool $disabledOnWireLoading = true,
         public ?string $label = null,
         public ?string $icon = null,
         public ?string $rightIcon = null,
@@ -28,7 +28,7 @@ class Base extends Component
             $this->attributes->offsetSet('type', 'button');
         }
 
-        if ($this->disableOnWireLoading) {
+        if ($this->disabledOnWireLoading) {
             $this->attributes->offsetSet('wire:loading.attr', 'disabled');
             $this->attributes->offsetSet('wire:loading.class', '!cursor-wait');
         }
@@ -42,10 +42,7 @@ class Base extends Component
         ]);
     }
 
-    protected function getCssClass(): string
-    {
-        return '';
-    }
+    abstract protected function getCssClass(): string;
 
     protected function getSpinner(): ?ComponentAttributeBag
     {

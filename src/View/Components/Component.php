@@ -13,32 +13,10 @@ abstract class Component extends View\Component
         return Arr::toCssClasses($classList);
     }
 
-    /**
-     * This function will find the correct modifier for the given attributes
-     * The default value is "default" if no matches are found
-     * e.g. The sizes modifiers are: $sizes ['xs' => '...', ...]
-     *      <x-button xs ... />  return "xs"
-     *      <x-button ... />     return "default"
-     */
-    protected function findModifier(array $classes): string
+    protected function getMatchModifier(array $keys): ?string
     {
-        unset($classes['default']);
+        $matches = $this->attributes->only($keys)->getAttributes();
 
-        $modifiers = array_keys($classes);
-        $matches   = $this->attributes->only($modifiers)->getAttributes();
-        $modifier  = array_key_first($matches) ?? 'default';
-
-        if ($modifier !== 'default') {
-            $this->attributes->offsetUnset($modifier);
-        }
-
-        return $modifier;
-    }
-
-    protected function modifierClasses(?string $modifier, array $classes): ?string
-    {
-        $modifier ??= $this->findModifier($classes);
-
-        return data_get($classes, $modifier);
+        return array_key_first($matches);
     }
 }
