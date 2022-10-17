@@ -1,10 +1,10 @@
 <{{ $tag }} {{ $attributes }}>
-    <div {{ $wireLoadingAttribute }}>
+    <div class="shrink-0" {{ $wireLoadingAttribute }}>
         @if ($icon)
             <x-dynamic-component
                 :component="WireUi::component('icon')"
-                :name="$icon"
                 class="{{ $iconSize }} shrink-0"
+                :name="$icon"
             />
         @else
             {{ $label ?? $slot }}
