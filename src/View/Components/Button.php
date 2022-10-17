@@ -45,6 +45,16 @@ class Button extends Base
         );
     }
 
+    protected function init(): void
+    {
+        /** @var SizePack $iconSizePack */
+        $iconSizePack = resolve(static::$sizes['icons']);
+
+        $modifier = $this->getMatchModifier($iconSizePack->keys());
+
+        $this->iconSize ??= $iconSizePack->get($modifier);
+    }
+
     public static function setDefaultColor(string $name): void
     {
         static::$defaultColor = $name;
@@ -122,17 +132,7 @@ class Button extends Base
 
         $this->size ??= $this->getMatchModifier($baseSize->keys());
 
-        $this->fillIconSize($this->size);
-
         return $baseSize->get($this->size);
-    }
-
-    protected function fillIconSize(?string $size): void
-    {
-        /** @var SizePack $iconSizePack */
-        $iconSizePack = resolve(static::$sizes['icons']);
-
-        $this->iconSize ??= $iconSizePack->get($size);
     }
 
     protected function getCssClass(): string
