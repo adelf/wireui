@@ -13,7 +13,7 @@ abstract class ColorPack
         return data_get(
             target: $this->all(),
             key: $color,
-            default: $this->default()
+            default: $color
         );
     }
 

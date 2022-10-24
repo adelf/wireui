@@ -12,11 +12,4 @@ abstract class Component extends View\Component
     {
         return Arr::toCssClasses($classList);
     }
-
-    protected function getMatchModifier(array $keys): ?string
-    {
-        $matches = $this->attributes->only($keys)->getAttributes();
-
-        return array_key_first($matches);
-    }
 }

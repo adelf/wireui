@@ -3,12 +3,13 @@
 namespace WireUi\View\Components\Buttons;
 
 use Closure;
-use Illuminate\View\ComponentAttributeBag;
-use WireUi\View\Attribute;
-use WireUi\View\Components\Component;
+use Illuminate\View\Component;
+use WireUi\Traits\Buttons\HasSpinner;
 
 abstract class Base extends Component
 {
+    use HasSpinner;
+
     public function __construct(
         public bool $disabledOnWireLoading = true,
         public ?string $label = null,
@@ -18,57 +19,51 @@ abstract class Base extends Component
     ) {
     }
 
-    protected function proccessData(array $data): array
+    protected function ensureButtonType(): self
     {
-        if (method_exists($this, 'init')) {
-            call_user_func([$this, 'init']);
-        }
-
         if (!$this->attributes->has('href') && !$this->attributes->has('type')) {
             $this->attributes->offsetSet('type', 'button');
         }
 
+        return $this;
+    }
+
+    protected function ensureDisabledStateOnWireLoading(): self
+    {
         if ($this->disabledOnWireLoading) {
             $this->attributes->offsetSet('wire:loading.attr', 'disabled');
             $this->attributes->offsetSet('wire:loading.class', '!cursor-wait');
         }
 
-        return array_merge($data, [
-            'iconSize'   => $this->iconSize,
-            'spinner'    => $this->getSpinner(),
-            'attributes' => $this->attributes->class($this->getCssClass()),
-            'disabled'   => (bool) $this->attributes->get('disabled'),
-            'tag'        => $this->attributes->has('href') ? 'a' : 'button',
-        ]);
+        return $this;
     }
 
-    abstract protected function getCssClass(): string;
-
-    protected function getSpinner(): ?ComponentAttributeBag
+    protected function tag(): string
     {
-        /** @var Attribute $spinner */
-        $spinner = $this->attributes->attribute('spinner');
-
-        if (!$spinner->exists()) {
-            return null;
+        if ($this->attributes->has('href')) {
+            return 'a';
         }
 
-        $target  = $spinner->value();
-        $loading = 'wire:loading.delay';
+        return 'button';
+    }
 
-        if ($delay = $spinner->modifiers()->first()) {
-            $loading .= ".{$delay}";
+    protected function proccessData(array &$data): array
+    {
+        $this->ensureButtonType();
+        $this->ensureDisabledStateOnWireLoading();
+
+        $data = array_merge($data, [
+            'spinner'    => $this->getSpinner(),
+            'tag'        => $this->tag(),
+            'iconSize'   => &$this->iconSize,
+            'attributes' => &$this->attributes,
+        ]);
+
+        if (method_exists($this, 'init')) {
+            call_user_func([$this, 'init'], $data);
         }
 
-        $attributes = new ComponentAttributeBag([$loading => 'true']);
-
-        if (is_string($target)) {
-            $attributes->offsetSet('wire:target', $target);
-        }
-
-        $this->attributes->offsetUnset($spinner->directive());
-
-        return $attributes;
+        return $data;
     }
 
     public function render(): Closure
