@@ -1,12 +1,14 @@
 <?php
 
-namespace WireUi\Support\Buttons\Sizes;
+namespace WireUi\Support\Buttons\Sizes\Mini;
 
-class CircleIconSize extends SizePack
+use WireUi\Support\Buttons\Sizes\SizePack;
+
+class Icon extends SizePack
 {
     public function default(): string
     {
-        return 'w-4 h-4';
+        return $this->get(config('wireui.button.size'));
     }
 
     public function all(): array
@@ -18,6 +20,7 @@ class CircleIconSize extends SizePack
             'md'  => 'w-4 h-4',
             'lg'  => 'w-5 h-5',
             'xl'  => 'w-6 h-6',
+            '2xl' => 'w-7 h-7',
         ];
     }
 }

@@ -133,13 +133,9 @@ return [
             'class' => Components\Button::class,
             'alias' => 'button',
         ],
-        'buttons.base' => [
-            'class' => Components\Buttons\Base::class,
-            'alias' => 'buttons.base',
-        ],
-        'buttons.circle' => [
-            'class' => Components\Buttons\Circle::class,
-            'alias' => 'buttons.circle',
+        'buttons.mini' => [
+            'class' => Components\Buttons\Mini::class,
+            'alias' => 'buttons.mini',
         ],
         'dropdown' => [
             'class' => Components\Dropdown::class,
