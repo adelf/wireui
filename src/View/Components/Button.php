@@ -4,7 +4,6 @@ namespace WireUi\View\Components;
 
 use WireUi\Support\Buttons\Colors\{Color, ColorPack};
 use WireUi\Support\Buttons\Sizes\SizePack;
-use WireUi\Support\Buttons\{Colors, Sizes};
 use WireUi\Traits\HasModifiers;
 use WireUi\View\Attribute;
 use WireUi\View\Components\Buttons\Base;
@@ -12,17 +11,6 @@ use WireUi\View\Components\Buttons\Base;
 class Button extends Base
 {
     use HasModifiers;
-
-    protected static array $colors = [
-        'solid'   => Colors\Solid::class,
-        'flat'    => Colors\Flat::class,
-        'outline' => Colors\Outline::class,
-    ];
-
-    protected static array $sizes = [
-        'base' => Sizes\Base::class,
-        'icon' => Sizes\Icon::class,
-    ];
 
     public function __construct(
         public bool $disabledOnWireLoading = true,
@@ -34,14 +22,12 @@ class Button extends Base
         public ?string $rightIcon = null,
         public ?string $color = null,
         public ?string $size = null,
-        public ?string $iconSize = null,
     ) {
         parent::__construct(
             disabledOnWireLoading: $disabledOnWireLoading,
             label: $label,
             icon: $icon,
             rightIcon: $rightIcon,
-            iconSize: $iconSize,
         );
     }
 
@@ -52,13 +38,18 @@ class Button extends Base
         $this->setupColor();
     }
 
+    protected function config(string $path): mixed
+    {
+        return config("wireui.button.{$path}");
+    }
+
     protected function setupSize(): self
     {
         /** @var SizePack $sizePack */
-        $sizePack = resolve(static::$sizes['base']);
+        $sizePack = resolve($this->config('sizes.base'));
 
         $this->size ??= $this->getMatchModifier($sizePack->keys());
-        $this->size ??= config('wireui.button.size');
+        $this->size ??= $this->config('size');
 
         $this->attributes = $this->attributes->class(
             $sizePack->get($this->size)
@@ -70,11 +61,9 @@ class Button extends Base
     protected function setupIconSize(): self
     {
         /** @var SizePack $sizePack */
-        $sizePack = resolve(static::$sizes['icon']);
+        $sizePack = resolve($this->config('sizes.icon'));
 
-        $modifier = $this->iconSize ?? $this->size;
-
-        $this->iconSize = $sizePack->get($modifier);
+        $this->iconSize = $sizePack->get($this->size);
 
         return $this;
     }
@@ -106,11 +95,13 @@ class Button extends Base
 
     protected function getColorPack(): ColorPack
     {
-        $style = $this->getMatchModifier(array_keys(static::$colors));
+        $colors = $this->config('colors');
 
-        $style ??= config('wireui.button.style');
+        $style = $this->getMatchModifier(array_keys($colors));
 
-        return resolve(static::$colors[$style]);
+        $style ??= $this->config('style');
+
+        return resolve($colors[$style]);
     }
 
     protected function getCurrentColor(): string
@@ -118,7 +109,7 @@ class Button extends Base
         $colorPack = $this->getColorPack();
 
         $this->color ??= $this->getMatchModifier($colorPack->keys());
-        $this->color ??= config('wireui.button.color');
+        $this->color ??= $this->config('color');
 
         $color = $colorPack->get($this->color);
 
@@ -127,16 +118,6 @@ class Button extends Base
         $this->applyColorModifier($colorPack, $color, ['hover', 'focus'], event: 'interaction');
 
         return $color;
-    }
-
-    public static function addColor(string $color, string $class): void
-    {
-        static::$colors[$color] = $class;
-    }
-
-    public static function addSize(string $size, string $class): void
-    {
-        static::$sizes[$size] = $class;
     }
 
     /**

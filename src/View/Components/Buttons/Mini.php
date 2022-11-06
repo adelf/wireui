@@ -3,16 +3,10 @@
 namespace WireUi\View\Components\Buttons;
 
 use Closure;
-use WireUi\Support\Buttons\Sizes;
 use WireUi\View\Components\Button;
 
 class Mini extends Button
 {
-    protected static array $sizes = [
-        'base' => Sizes\Mini\Base::class,
-        'icon' => Sizes\Mini\Icon::class,
-    ];
-
     public function __construct(
         public bool $disabledOnWireLoading = true,
         public bool $rounded = false,
@@ -21,7 +15,6 @@ class Mini extends Button
         public ?string $icon = null,
         public ?string $color = null,
         public ?string $size = null,
-        public ?string $iconSize = null,
     ) {
         parent::__construct(
             disabledOnWireLoading: $disabledOnWireLoading,
@@ -33,8 +26,12 @@ class Mini extends Button
             rightIcon: null,
             color: $color,
             size: $size,
-            iconSize: $iconSize,
         );
+    }
+
+    protected function config(string $path): mixed
+    {
+        return config("wireui.buttons_mini.{$path}");
     }
 
     protected function proccessData(array &$data): array
