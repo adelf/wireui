@@ -58,9 +58,9 @@ class Solid extends ColorPack
                 focus: "{$this->focus} focus:bg-gray-900 dark:focus:bg-gray-600 focus:ring-gray-700 dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800",
             ),
             'white' => new Color(
-                base: 'bg-white border text-slate-500 dark:text-slate-200 dark:border-slate-700 dark:bg-slate-700',
-                hover: "{$this->hover} hover:text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-600",
-                focus: "{$this->focus} focus:text-slate-500 focus:bg-slate-50 dark:focus:bg-slate-600 focus:ring-slate-200 dark:focus:ring-slate-600",
+                base: 'bg-white text-slate-500 dark:text-slate-200 dark:bg-slate-700',
+                hover: "{$this->hover} hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600",
+                focus: "{$this->focus} focus:text-slate-600 focus:bg-slate-50 dark:focus:bg-slate-600 focus:ring-white dark:focus:ring-slate-600",
             ),
             'black' => new Color(
                 base: 'bg-black text-slate-100 dark:border-slate-700 dark:bg-slate-700',

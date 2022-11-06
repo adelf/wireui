@@ -12,7 +12,7 @@ class Outline extends ColorPack
     {
         return new Color(
             base: 'border text-slate-500 dark:border-slate-500 dark:text-slate-400',
-            hover:[
+            hover: [
                 "{$this->hover} hover:text-slate-500 dark:hover:text-slate-400 hover:border-slate-200",
                 'dark:hover:border-slate-600 hover:bg-slate-100',
             ],
@@ -63,8 +63,8 @@ class Outline extends ColorPack
             ),
             'white' => new Color(
                 base: 'text-white border border-white dark:text-slate-200 dark:border-slate-400',
-                hover: "{$this->hover} hover:text-slate-500 dark:hover:text-slate-200 hover:border-slate-200 dark:hover:border-slate-600 hover:bg-slate-100",
-                focus: "{$this->focus} focus:text-slate-500 dark:focus:text-slate-200 focus:ring-slate-200 dark:focus:ring-slate-600 focus:bg-slate-100",
+                hover: "{$this->hover} hover:text-slate-500 dark:hover:text-slate-200 hover:border-white dark:hover:border-slate-600 hover:bg-slate-50",
+                focus: "{$this->focus} focus:text-slate-500 dark:focus:text-slate-200 focus:ring-white dark:focus:ring-slate-600 focus:bg-slate-50",
             ),
             'black' => new Color(
                 base: 'border border-black text-black dark:border-slate-400 dark:text-slate-200',
