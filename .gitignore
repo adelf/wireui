@@ -4,6 +4,7 @@ coverage
 tests/Browser/console
 tests/Browser/screenshots
 tests/Browser/source
+.php-cs-fixer.cache
 .phpunit.result.cache
 yarn-error.log
 .idea
