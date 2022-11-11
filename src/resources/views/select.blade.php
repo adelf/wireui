@@ -84,7 +84,7 @@
                             <span
                                 class="truncate text-secondary-700 dark:text-secondary-400 text-sm"
                                 x-show="!isEmpty()"
-                                x-html="getSelectedDysplayText()">
+                                x-html="getSelectedDisplayText()">
                             </span>
                         </div>
                     </template>
@@ -177,7 +177,7 @@
     </div>
 
     <x-wireui::parts.popover :margin="(bool) $label" root-class="sm:w-full">
-        <template x-if="asyncData.api || (config.searchable && options.length > 10)">
+        <template x-if="asyncData.api || (config.searchable && options.length >= @js($minItemsForSearch))">
             <div class="px-2 my-2" wire:key="search.options.{{ $name }}">
                 <x-dynamic-component
                     :component="WireUi::component('input')"

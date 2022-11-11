@@ -24,4 +24,4 @@
             {{ $spinner }}
         />
     @endif
-</{{ $tag}}>
+</{{ $tag }}>
