@@ -5,11 +5,15 @@ namespace WireUi\View\Components;
 use Illuminate\View;
 use Illuminate\View\ComponentAttributeBag;
 
+/**
+ * @deprecated
+ */
 abstract class Component extends View\Component
 {
     protected const DEFAULT = 'default';
 
     /**
+     * @deprecated
      * Will find the correct modifier, like sizes, xs, sm given as a component attribute
      * This function will return "default" if no matches are found
      * e.g. The sizes modifiers are: $sizes ['xs' => '...', ...]
@@ -32,7 +36,10 @@ abstract class Component extends View\Component
         return $modifier ?? self::DEFAULT;
     }
 
-    /** Finds the correct modifier css classes on attributes */
+    /**
+     * @deprecated
+     * Finds the correct modifier css classes on attributes
+     */
     public function modifierClasses(ComponentAttributeBag $attributes, array $modifiers): string
     {
         $modifier = $this->findModifier($attributes, $modifiers);
