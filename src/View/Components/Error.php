@@ -7,11 +7,10 @@ use Illuminate\View\Component;
 
 class Error extends Component
 {
-    public string $name;
-
-    public function __construct(string $name)
-    {
-        $this->name = $name;
+    public function __construct(
+        public string $name,
+        public ?string $custom = null,
+    ) {
     }
 
     public function render(): View

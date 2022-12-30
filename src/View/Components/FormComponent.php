@@ -3,17 +3,10 @@
 namespace WireUi\View\Components;
 
 use Closure;
-use Illuminate\View\ComponentAttributeBag;
+use Illuminate\View\{Component, ComponentAttributeBag};
 
 abstract class FormComponent extends Component
 {
-    public function render(): Closure
-    {
-        return function (array $data) {
-            return view($this->getView(), $this->mergeAttributes($data))->render();
-        };
-    }
-
     abstract protected function getView(): string;
 
     protected function sharedAttributes(): array
@@ -51,5 +44,12 @@ abstract class FormComponent extends Component
         }
 
         return $data;
+    }
+
+    public function render(): Closure
+    {
+        return function (array $data) {
+            return view($this->getView(), $this->mergeAttributes($data))->render();
+        };
     }
 }
